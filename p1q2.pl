@@ -1,28 +1,37 @@
-/*
-subsets(S,PS)
+member(X,[X|_]).
+member(X,[_|T]):-
+	member(X,T),
+	!.
 
-Note that the subsets need not be listed exactly in the order shown. 
+append([],LISTB,LISTB).
+append([H|T],LISTB,[H|LISTC]):-
+    append(T,LISTB,LISTC).
 
-?- subsets([1],[[1],[]]). 
-true 
+marry(X,T,MLIST):-
+	go_marry(X,T,T,MLIST).
+	
+go_marry(_,[],LISTB,LISTB).
+go_marry(X,[H|T],LISTB,LISTC):-
+	%LISTC = [H|T_LISTC],
+	append([X],H,JOINED),
+	LISTC = [JOINED|T_LISTC],
+	go_marry(X,T,LISTB,T_LISTC).
+	
+subsets([],[[]]).
+subsets([H|T],PS):-
+	subsets(T,TS),
+	marry(H,TS,PS),
+	!.
+	
 
-?- subsets([1],[[1],[2]]). 
-false 
+	
 
-?- subsets([1,2],PS). 
-PS = [[],[1],[2],[1,2]] 
+	
+	
+	
 
-
-IDEA
-sort the list
-define sublist 
-check if X is sublist PS
-
-
-ALT IDEA
-define member
-for each x in A, check if its a member in B
-*/
+	
+	
 
 
 
